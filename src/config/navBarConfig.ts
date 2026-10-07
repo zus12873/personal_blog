@@ -46,13 +46,6 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 
 	links.push(LinkPresets.About);
 
-	links.push({
-		name: "GitHub",
-		url: "https://github.com/zus12873",
-		external: true,
-		icon: "fa7-brands:github",
-	});
-
 	return { links } as NavBarConfig;
 };
 

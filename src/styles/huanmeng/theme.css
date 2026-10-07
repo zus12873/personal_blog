@@ -1,0 +1,162 @@
+/* 幻梦小站定制配色层：覆盖 Firefly 的 hue 公式变量。在 variables.styl 之后加载（见 Layout.astro） */
+
+:root {
+	--hm-paper: #f6f6f7;
+	--hm-lav: #dad4eb;
+	--hm-mist: #a5bfd7;
+	--hm-star: #4a6cd5;
+	--hm-mint: #b9eae3;
+	--hm-char: #444048;
+	--hm-sub: #8d909e;
+	--hm-blush: #eeccca;
+	--hm-ink: #0c1112;
+	--hm-blood: #8e2424;
+
+	--primary: var(--hm-star);
+	--page-bg: var(--hm-paper);
+	--card-bg: #fff;
+	--card-bg-transparent: rgb(255 255 255 / 0.72);
+	--btn-content: var(--hm-star);
+	--btn-regular-bg: var(--hm-lav);
+	--btn-regular-bg-hover: #cfc7e6;
+	--btn-regular-bg-active: #c3b9e0;
+	--btn-plain-bg-hover: rgb(218 212 235 / 0.6);
+	--btn-card-bg-hover: rgb(218 212 235 / 0.35);
+	--deep-text: var(--hm-char);
+	--title-active: var(--hm-star);
+	--selection-bg: var(--hm-lav);
+	--link-underline: rgb(74 108 213 / 0.25);
+	--link-hover: rgb(218 212 235 / 0.6);
+	--link-active: var(--hm-lav);
+	--toc-item-active: var(--hm-star);
+
+	/* 星屑颜色：两层 */
+	--hm-star-a: rgb(255 255 255 / 0.95);
+	--hm-star-b: rgb(74 108 213 / 0.75);
+}
+
+:root.dark {
+	--primary: var(--hm-mint);
+	--page-bg: var(--hm-ink);
+	--card-bg: #141b1d;
+	--card-bg-transparent: rgb(16 22 24 / 0.6);
+	--btn-content: var(--hm-mint);
+	--btn-regular-bg: rgb(185 234 227 / 0.14);
+	--btn-regular-bg-hover: rgb(185 234 227 / 0.22);
+	--btn-regular-bg-active: rgb(185 234 227 / 0.3);
+	--btn-plain-bg-hover: rgb(185 234 227 / 0.1);
+	--btn-card-bg-hover: rgb(185 234 227 / 0.08);
+	--deep-text: #e6ecec;
+	--title-active: var(--hm-mint);
+	--selection-bg: rgb(185 234 227 / 0.28);
+	--link-underline: rgb(185 234 227 / 0.3);
+	--link-hover: rgb(185 234 227 / 0.14);
+	--link-active: rgb(185 234 227 / 0.22);
+	--toc-item-active: var(--hm-mint);
+	--float-panel-bg: #121a1c;
+
+	--hm-star-a: rgb(185 234 227 / 0.9);
+	--hm-star-b: rgb(185 234 227 / 0.55);
+}
+
+/* ---------- 背景：亮色遮住壁纸图，改画紫蓝星空；暗色显示壁纸 ---------- */
+:root:not(.dark) #wallpaper-wrapper {
+	background:
+		radial-gradient(ellipse at 18% 22%, rgb(218 212 235 / 0.95), transparent 55%),
+		radial-gradient(ellipse at 85% 15%, rgb(165 191 215 / 0.95), transparent 50%),
+		radial-gradient(ellipse at 60% 70%, rgb(185 234 227 / 0.45), transparent 55%),
+		linear-gradient(160deg, #c6bce6 0%, #a9bfe0 45%, #e3e0f0 100%);
+}
+:root:not(.dark) #banner-images-container,
+:root:not(.dark) #wallpaper-wrapper .banner-dim-overlay {
+	opacity: 0;
+}
+
+/* 电脑壁纸人物在右侧：上游 fullscreen 规则以 !important 把 object-position 写死为 center
+   （最高特异性 1,2,2），这里重复 id 提到 2,1,2，改为靠右 */
+@media (min-width: 1024px) {
+	html[data-wallpaper-mode="fullscreen"] #wallpaper-wrapper#wallpaper-wrapper img {
+		object-position: right center !important;
+	}
+}
+
+/* ---------- 星屑：两层遮罩 + 不同节奏的闪烁 ---------- */
+#wallpaper-wrapper::before,
+#wallpaper-wrapper::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 6;
+	pointer-events: none;
+	-webkit-mask-repeat: repeat;
+	mask-repeat: repeat;
+	animation: hm-twinkle 3.2s ease-in-out infinite;
+}
+#wallpaper-wrapper::before {
+	background-color: var(--hm-star-a);
+	--hm-stars: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='980' height='720'%3E%3Cg fill='%23000'%3E%3Cpath transform='translate%28341 164%29 scale%280.39%29' d='M12 0C13 8 16 11 24 12 16 13 13 16 12 24 11 16 8 13 0 12 8 11 11 8 12 0Z'/%3E%3Cpath transform='translate%2859 84%29 scale%280.54%29' d='M12 0C13 8 16 11 24 12 16 13 13 16 12 24 11 16 8 13 0 12 8 11 11 8 12 0Z'/%3E%3Cpath transform='translate%28106 384%29 scale%280.45%29' d='M12 0C13 8 16 11 24 12 16 13 13 16 12 24 11 16 8 13 0 12 8 11 11 8 12 0Z'/%3E%3Cpath transform='translate%28941 529%29 scale%280.33%29' d='M12 0C13 8 16 11 24 12 16 13 13 16 12 24 11 16 8 13 0 12 8 11 11 8 12 0Z'/%3E%3Cpath transform='translate%2898 454%29 scale%280.40%29' d='M12 0C13 8 16 11 24 12 16 13 13 16 12 24 11 16 8 13 0 12 8 11 11 8 12 0Z'/%3E%3Cpath transform='translate%28256 102%29 scale%280.44%29' d='M12 0C13 8 16 11 24 12 16 13 13 16 12 24 11 16 8 13 0 12 8 11 11 8 12 0Z'/%3E%3Cpath transform='translate%2870 589%29 scale%280.29%29' d='M12 0C13 8 16 11 24 12 16 13 13 16 12 24 11 16 8 13 0 12 8 11 11 8 12 0Z'/%3E%3Cpath transform='translate%28238 655%29 scale%280.47%29' d='M12 0C13 8 16 11 24 12 16 13 13 16 12 24 11 16 8 13 0 12 8 11 11 8 12 0Z'/%3E%3Cpath transform='translate%2873 600%29 scale%280.45%29' d='M12 0C13 8 16 11 24 12 16 13 13 16 12 24 11 16 8 13 0 12 8 11 11 8 12 0Z'/%3E%3C/g%3E%3C/svg%3E");
+	-webkit-mask-image: var(--hm-stars);
+	mask-image: var(--hm-stars);
+}
+#wallpaper-wrapper::after {
+	background-color: var(--hm-star-b);
+	--hm-stars: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1340' height='940'%3E%3Cg fill='%23000'%3E%3Cpath transform='translate%28540 307%29 scale%280.41%29' d='M12 0C13 8 16 11 24 12 16 13 13 16 12 24 11 16 8 13 0 12 8 11 11 8 12 0Z'/%3E%3Cpath transform='translate%28390 677%29 scale%280.27%29' d='M12 0C13 8 16 11 24 12 16 13 13 16 12 24 11 16 8 13 0 12 8 11 11 8 12 0Z'/%3E%3Cpath transform='translate%28311 900%29 scale%280.27%29' d='M12 0C13 8 16 11 24 12 16 13 13 16 12 24 11 16 8 13 0 12 8 11 11 8 12 0Z'/%3E%3Cpath transform='translate%28393 143%29 scale%280.22%29' d='M12 0C13 8 16 11 24 12 16 13 13 16 12 24 11 16 8 13 0 12 8 11 11 8 12 0Z'/%3E%3Cpath transform='translate%28448 772%29 scale%280.29%29' d='M12 0C13 8 16 11 24 12 16 13 13 16 12 24 11 16 8 13 0 12 8 11 11 8 12 0Z'/%3E%3Cpath transform='translate%28893 139%29 scale%280.45%29' d='M12 0C13 8 16 11 24 12 16 13 13 16 12 24 11 16 8 13 0 12 8 11 11 8 12 0Z'/%3E%3Cpath transform='translate%281256 24%29 scale%280.50%29' d='M12 0C13 8 16 11 24 12 16 13 13 16 12 24 11 16 8 13 0 12 8 11 11 8 12 0Z'/%3E%3Cpath transform='translate%28310 96%29 scale%280.46%29' d='M12 0C13 8 16 11 24 12 16 13 13 16 12 24 11 16 8 13 0 12 8 11 11 8 12 0Z'/%3E%3Cpath transform='translate%28547 856%29 scale%280.34%29' d='M12 0C13 8 16 11 24 12 16 13 13 16 12 24 11 16 8 13 0 12 8 11 11 8 12 0Z'/%3E%3Cpath transform='translate%28904 152%29 scale%280.44%29' d='M12 0C13 8 16 11 24 12 16 13 13 16 12 24 11 16 8 13 0 12 8 11 11 8 12 0Z'/%3E%3Cpath transform='translate%28535 374%29 scale%280.45%29' d='M12 0C13 8 16 11 24 12 16 13 13 16 12 24 11 16 8 13 0 12 8 11 11 8 12 0Z'/%3E%3C/g%3E%3C/svg%3E");
+	-webkit-mask-image: var(--hm-stars);
+	mask-image: var(--hm-stars);
+	animation-duration: 4.6s;
+	animation-delay: -1.7s;
+}
+@keyframes hm-twinkle {
+	0%,
+	100% {
+		opacity: 0.35;
+	}
+	50% {
+		opacity: 1;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	#wallpaper-wrapper::before,
+	#wallpaper-wrapper::after {
+		animation: none;
+		opacity: 0.7;
+	}
+}
+
+/* ---------- 毛玻璃卡片：只在桌面端开启，避免手机上掉帧 ---------- */
+@media (min-width: 1024px) {
+	.card-base {
+		-webkit-backdrop-filter: blur(12px);
+		backdrop-filter: blur(12px);
+	}
+}
+
+/* ---------- 导航栏头像 logo ---------- */
+img.navbar-logo {
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+/* ---------- 横幅文字与打字机光标 ---------- */
+#banner-subtitle .typewriter::after {
+	color: var(--hm-mist);
+}
+:root.dark #banner-subtitle .typewriter::after {
+	color: var(--hm-blood);
+}
+:root:not(.dark) .banner-title,
+:root:not(.dark) .banner-subtitle {
+	text-shadow:
+		0 1px 3px rgb(52 72 150 / 0.55),
+		0 2px 18px rgb(74 108 213 / 0.55);
+}
+
+/* ---------- 置顶标签：亮色腮红，暗色血红 ---------- */
+.pinned-btn {
+	background-color: var(--hm-blush) !important;
+	color: var(--hm-char) !important;
+}
+:root.dark .pinned-btn {
+	background-color: rgb(142 36 36 / 0.3) !important;
+	color: #e7a0a0 !important;
+}

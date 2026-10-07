@@ -5,3 +5,4 @@
 
 | 文件 | 修改 | 原因 | 合并注意 |
 |---|---|---|---|
+| `src/layouts/Layout.astro` | 在 `variables.styl` 之后 `import "@/styles/huanmeng/theme.css"` | 加载定制配色层 | 上游调整 import 顺序时，保证 theme.css 仍在 variables.styl 之后 |
