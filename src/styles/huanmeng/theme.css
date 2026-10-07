@@ -15,7 +15,7 @@
 	--primary: var(--hm-star);
 	--page-bg: var(--hm-paper);
 	--card-bg: #fff;
-	--card-bg-transparent: rgb(255 255 255 / 0.72);
+	--card-bg-transparent: rgb(255 255 255 / 0.7);
 	--btn-content: var(--hm-star);
 	--btn-regular-bg: var(--hm-lav);
 	--btn-regular-bg-hover: #cfc7e6;
@@ -39,7 +39,7 @@
 	--primary: var(--hm-mint);
 	--page-bg: var(--hm-ink);
 	--card-bg: #141b1d;
-	--card-bg-transparent: rgb(16 22 24 / 0.6);
+	--card-bg-transparent: rgb(16 22 24 / 0.58);
 	--btn-content: var(--hm-mint);
 	--btn-regular-bg: rgb(185 234 227 / 0.14);
 	--btn-regular-bg-hover: rgb(185 234 227 / 0.22);
@@ -106,6 +106,11 @@
 	animation-duration: 4.6s;
 	animation-delay: -1.7s;
 }
+/* 上游在 banner/fullscreen 模式给 #wallpaper-wrapper::after 画了暗角渐变（特异性 1,1,2），
+   会盖掉这层星屑的颜色；重复 id 提到 2,1,2。暗角因此不再显示 */
+html[data-wallpaper-mode] #wallpaper-wrapper#wallpaper-wrapper::after {
+	background: var(--hm-star-b);
+}
 @keyframes hm-twinkle {
 	0%,
 	100% {
@@ -123,11 +128,27 @@
 	}
 }
 
-/* ---------- 毛玻璃卡片：只在桌面端开启，避免手机上掉帧 ---------- */
-@media (min-width: 1024px) {
-	.card-base {
-		-webkit-backdrop-filter: blur(12px);
-		backdrop-filter: blur(12px);
+/* ---------- 毛玻璃卡片 ----------
+   用上游 fullscreen "hero" 布局（backgroundWallpaper.ts）：壁纸固定在内容下方，卡片取 --card-bg-transparent，
+   模糊只作用在壁纸图上。不给卡片加 backdrop-filter：星屑一直在闪，每帧都会让每张卡片重算一次模糊 */
+
+/* ---------- 暗色主色是浅薄荷：上游「主色底 + 白字」的元素改用墨色字 ---------- */
+:root.dark .category-pill[data-active],
+:root.dark .category-pill[data-category-name=""][data-active],
+:root.dark .category-pill[data-category-name=""][data-active]:hover,
+:root.dark .plantuml-error button,
+:root.dark [class~="dark:bg-(--primary)"],
+:root.dark .twikoo .el-button.el-button--primary,
+:root.dark .twikoo .el-button.el-button--primary:hover,
+:root.dark .twikoo .el-button.el-button--primary:focus,
+:root.dark .twikoo .tk-pagination-pager.__current {
+	color: var(--hm-ink);
+}
+/* 归档面板徽章用的是 Tailwind important 工具类（在 @layer utilities 里）；
+   important 声明里靠前的层优先，所以放进 base 层才能盖过它 */
+@layer base {
+	:root.dark .group:hover [class~="group-hover:text-white!"] {
+		color: var(--hm-ink) !important;
 	}
 }
 
