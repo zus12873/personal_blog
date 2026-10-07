@@ -1,0 +1,59 @@
+---
+import ProjectCard from "@/components/pages/projects/ProjectCard.astro";
+import { huanmengConfig } from "@/config/huanmeng";
+import { getSortedProjects } from "@/utils/content-utils";
+import {
+	getFileDirFromPath,
+	removeFileExtension,
+	url,
+} from "@/utils/url-utils";
+import { selectFeatured } from "./select-featured";
+
+const projects = (await getSortedProjects()).map((p) => ({
+	id: removeFileExtension(p.id),
+	title: p.data.title,
+	description: p.data.description,
+	image: p.data.image,
+	basePath: getFileDirFromPath(p.filePath || ""),
+	tags: p.data.tags,
+	published: p.data.published,
+	link: p.data.link,
+	status: p.data.status,
+}));
+const featured = selectFeatured(projects, huanmengConfig.featuredProjects);
+---
+
+{featured.length > 0 && (
+	<section class="hm-featured onload-animation mb-4" aria-label="精选项目">
+		<div class="hm-featured__head">
+			<h2>精选项目</h2>
+			<a href={url("/projects/")}>全部项目 →</a>
+		</div>
+		<div class="hm-featured__grid">
+			{featured.map((p) => <ProjectCard {...p} />)}
+		</div>
+	</section>
+)}
+
+<style>
+	.hm-featured__head {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		padding: 0 0.25rem 0.75rem;
+	}
+	.hm-featured__head h2 {
+		font-size: 1.1rem;
+		font-weight: 700;
+		color: var(--deep-text);
+	}
+	.hm-featured__head a {
+		font-size: 0.875rem;
+		color: var(--primary);
+	}
+	.hm-featured__grid {
+		display: grid;
+		gap: 1rem;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	}
+</style>
