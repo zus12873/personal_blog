@@ -7,4 +7,5 @@
 |---|---|---|---|
 | `src/layouts/Layout.astro` | 在 `variables.styl` 之后 `import "@/styles/huanmeng/theme.css"` | 加载定制配色层 | 上游调整 import 顺序时，保证 theme.css 仍在 variables.styl 之后 |
 | `src/pages/[...page].astro` | 第 1 页在 `<PostPage>` 前插入 `<FeaturedProjects />` | 首页精选项目行 | 上游改首页结构时，把这行放回文章列表之前 |
-| `package.json` | scripts 增加 `test:huanmeng` | 定制层单测 | 合并时保留这条 script |
+| `package.json` | scripts 增加 `test:huanmeng`、`deploy:cf` | 定制层单测、部署 | 合并时保留这两条 script |
+| `wrangler.jsonc` | Worker 名 `huanmeng-blog`、`routes` 绑定 `huanmeng.si`、`not_found_handling: 404-page`、`workers_dev: false` | 部署到 huanmeng.si | 上游改该文件时保留本站的值 |
