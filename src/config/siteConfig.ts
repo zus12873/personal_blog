@@ -55,15 +55,7 @@ export const siteConfig: SiteConfig = {
 		"幻梦的个人博客：记录写代码、折腾自托管服务与 AI 工具踩过的坑和做过的项目，也写追番、游戏和生活碎片。",
 
 	// 站点关键词
-	keywords: [
-		"幻梦",
-		"Huanmeng",
-		"博客",
-		"技术博客",
-		"自托管",
-		"AI",
-		"ACGN",
-	],
+	keywords: ["幻梦", "Huanmeng", "博客", "技术博客", "自托管", "AI", "ACGN"],
 
 	// 主题色
 	themeColor: {
