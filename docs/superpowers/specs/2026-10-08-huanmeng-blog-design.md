@@ -33,7 +33,7 @@
 | 标签、悬停背景 `--btn-regular-bg` | 薰衣草 `#DAD4EB` | `rgb(185 234 227 / 0.14)` |
 | 描边、头像外圈 | 雾蓝 `#A5BFD7` | `rgb(185 234 227 / 0.55)` |
 | 正文 / 次要文字 | `#444048` / `#8D909E` | `#E6ECEC` / `#9FBABC` |
-| 点缀 | 腮红 `#EECCCA`（生活类标签） | 血红 `#8E2424`（只用于置顶标签和打字机光标） |
+| 点缀 | 腮红 `#EECCCA`（置顶标签） | 血红 `#8E2424`（只用于置顶标签和打字机光标） |
 
 文字与背景的对比度：亮色主色 `#4A6CD5` 在白底上约 4.9:1，暗色主色 `#B9EAE3` 在 `#0C1112` 上大于 12:1，都满足 WCAG AA。
 
@@ -88,7 +88,13 @@
 
 横幅 → 精选项目行 → 文章列表。
 
-精选项目行是新组件 `src/components/huanmeng/FeaturedProjects.astro`：读取 `projects` 集合里 `featured: true` 的条目（最多 3 个），展示为毛玻璃卡片，链接到项目页或仓库。没有精选项目时整行不渲染。
+精选项目行是新组件 `src/components/huanmeng/FeaturedProjects.astro`。
+
+- 精选名单写在 `src/config/huanmeng.ts` 的 `featuredProjects`（项目 id 数组）里
+- 不修改 projects 集合的 schema，以后合并上游时少一处冲突
+- 组件按名单顺序取最多 3 个项目，复用 Firefly 的 `ProjectCard` 渲染
+- 名单里不存在的 id 或草稿项目会被跳过
+- 名单为空时整行不渲染
 
 ### 3.4 侧边栏
 
