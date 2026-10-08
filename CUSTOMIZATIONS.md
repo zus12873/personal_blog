@@ -7,8 +7,9 @@
 |---|---|---|---|
 | `src/layouts/Layout.astro` | 在 `variables.styl` 之后 `import "@/styles/huanmeng/theme.css"` | 加载定制配色层 | 上游调整 import 顺序时，保证 theme.css 仍在 variables.styl 之后 |
 | `src/pages/[...page].astro` | 第 1 页在 `<PostPage>` 前插入 `<FeaturedProjects />` | 首页精选项目行 | 上游改首页结构时，把这行放回文章列表之前 |
-| `package.json` | scripts 增加 `test:huanmeng`、`deploy:cf` | 定制层单测、部署 | 合并时保留这两条 script |
+| `package.json` | scripts 增加 `test:huanmeng`、`deploy:cf`、`deploy:www` | 定制层单测、部署 | 合并时保留这三条 script |
 | `wrangler.jsonc` | Worker 名 `huanmeng-blog`、`routes` 绑定 `huanmeng.si`、`not_found_handling: 404-page`、`workers_dev: false` | 部署到 huanmeng.si | 上游改该文件时保留本站的值 |
+| `workers/www-redirect/`（新增） | 独立的小 Worker `huanmeng-www-redirect`，绑定 `www.huanmeng.si`，301 到 `https://huanmeng.si` 并保留路径和参数 | token 没有 Redirect Rules 权限，用 Worker 代替；`pnpm deploy:www` 部署 | 上游没有这个目录，不会冲突 |
 | `src/content/spec/friends.mdx` | 删掉邮箱申请说明；步骤徽章与勾选图标加 `dark:text-(--hm-ink)` | 不公开邮箱；暗色主色是浅薄荷，白字看不清 | 上游改友链模板时保留这两处 |
 
 ## theme.css 依赖的上游选择器（合并后必须复查）

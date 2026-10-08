@@ -1,0 +1,7 @@
+{
+	"name": "huanmeng-www-redirect",
+	"main": "index.ts",
+	"compatibility_date": "2025-01-01",
+	"routes": [{ "pattern": "www.huanmeng.si", "custom_domain": true }],
+	"workers_dev": false
+}
