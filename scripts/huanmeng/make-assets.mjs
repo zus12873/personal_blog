@@ -15,10 +15,15 @@ const imgDir = path.join(root, "src/assets/images/huanmeng");
 const favDir = path.join(root, "public/favicon");
 await mkdir(imgDir, { recursive: true });
 
-// 头像原图 1080×1080：AVATAR_CROP 取脸到上半身，FAVICON_CROP 只取脸
+// 头像原图 1080×1080：avatar-full 用整张图（侧栏、动态、分享图）；
+// AVATAR_CROP 取脸到上半身，只给导航栏小圆 logo；FAVICON_CROP 只取脸
 const AVATAR_CROP = { left: 202, top: 138, width: 675, height: 675 };
 const FAVICON_CROP = { left: 300, top: 200, width: 480, height: 480 };
 
+await sharp(avatarSrc)
+	.resize(512, 512)
+	.avif({ quality: 60 })
+	.toFile(path.join(imgDir, "avatar-full.avif"));
 await sharp(avatarSrc)
 	.extract(AVATAR_CROP)
 	.resize(512, 512)
