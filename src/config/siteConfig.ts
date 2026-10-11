@@ -48,7 +48,7 @@ export const siteConfig: SiteConfig = {
 	subtitle: "写代码，也写生活",
 
 	// 站点 URL
-	site_url: "https://huanmeng.si",
+	site_url: "https://blogs.huanmeng.si",
 
 	// 站点描述
 	description:

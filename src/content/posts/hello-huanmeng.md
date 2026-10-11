@@ -45,6 +45,6 @@ slug: hello-huanmeng
 
 ## 部署
 
-站点是纯静态构建，用 Workers 的静态资源功能直接托管 `dist/`，再绑定到 `huanmeng.si`。
+站点是纯静态构建，用 Workers 的静态资源功能直接托管 `dist/`，再绑定到 `blogs.huanmeng.si`；主域名和 `www` 由另一个小 Worker 跳转过来。
 
 以后就在这里写字了，欢迎去 [留言板](/guestbook/) 打个招呼 ✦
