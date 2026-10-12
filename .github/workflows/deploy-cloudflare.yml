@@ -1,0 +1,56 @@
+# 推送到 huanmeng-theme 时构建并部署到 Cloudflare Workers（blogs.huanmeng.si）。
+# PR 只构建不部署，用来检查 Dependabot 等改动能否通过构建。
+# 需要仓库 Secrets：CLOUDFLARE_API_TOKEN、CLOUDFLARE_ACCOUNT_ID。
+# 跳转 Worker（workers/redirect）很少改动，仍用 pnpm deploy:redirect 手动部署。
+name: Deploy to Cloudflare
+
+on:
+  push:
+    branches: [huanmeng-theme]
+  pull_request:
+    branches: [huanmeng-theme]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# 同一分支的部署排队执行，不互相取消，避免部署被中途打断
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
+        with:
+          run_install: false # 版本取 package.json 的 packageManager
+
+      - name: Setup Node.js
+        uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Test
+        run: pnpm test:huanmeng
+
+      - name: Build
+        run: pnpm build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # generate-github-card-data 用它避开匿名限流
+
+      - name: Deploy
+        if: github.event_name != 'pull_request'
+        run: pnpm exec wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

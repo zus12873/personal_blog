@@ -10,6 +10,7 @@
 | `package.json` | scripts 增加 `test:huanmeng`、`deploy:cf`、`deploy:redirect` | 定制层单测、部署 | 合并时保留这三条 script |
 | `wrangler.jsonc` | Worker 名 `huanmeng-blog`、`routes` 绑定 `blogs.huanmeng.si`、`not_found_handling: 404-page`、`workers_dev: false` | 部署到 blogs.huanmeng.si | 上游改该文件时保留本站的值 |
 | `workers/redirect/`（新增） | 独立的小 Worker `huanmeng-redirect`，绑定 `huanmeng.si` 和 `www.huanmeng.si`，302 到 `https://blogs.huanmeng.si` 并保留路径和参数 | token 没有 Redirect Rules 权限，用 Worker 代替；用 302 是为了以后主域名可以另作他用；`pnpm deploy:redirect` 部署 | 上游没有这个目录，不会冲突 |
+| `.github/workflows/deploy.yml`（删除）、`deploy-cloudflare.yml`（新增） | 删掉上游部署到 GitHub Pages 的流程；新增推送 `huanmeng-theme` 即测试、构建并部署到 Cloudflare 的流程，PR 只构建不部署 | 本站部署在 Cloudflare Workers，不用 GitHub Pages | 上游改 deploy.yml 时会出现「上游修改 / 本地删除」冲突，保持删除 |
 | `src/content/spec/friends.mdx` | 删掉邮箱申请说明；步骤徽章与勾选图标加 `dark:text-(--hm-ink)` | 不公开邮箱；暗色主色是浅薄荷，白字看不清 | 上游改友链模板时保留这两处 |
 
 ## theme.css 依赖的上游选择器（合并后必须复查）
